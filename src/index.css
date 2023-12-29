@@ -1,0 +1,16 @@
+*,*::before,*::after {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Chat App */
+.chatApp {
+  height: 100vh;
+}
+
+/* Remove default visibility icon in password input filed from browsers */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
