@@ -23,3 +23,11 @@ export const clearSession = () => {
   cookie.remove("token");
   sessionStorage.removeItem("user");
 };
+
+export const setAuthUserIsVerified = () => {
+  let user = getSessionUser();
+  if (user && user.id) {
+    user.is_verified = true;
+    sessionStorage.setItem("user", JSON.stringify(user))
+  }
+};

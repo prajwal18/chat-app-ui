@@ -5,12 +5,27 @@ import LoginPage from "../components/login-signup/LoginPage";
 import NotFound from "../components/404";
 import ProtectedRoute from "./ProtectedRoute";
 import ForgotPassword from "../components/forgot-password/ForgotPassword";
+import PublicOnlyRoute from "./PublicOnlyRoute";
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignUpPage />} />
+      <Route
+        path="/login"
+        element={
+          <PublicOnlyRoute>
+            <LoginPage />
+          </PublicOnlyRoute>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <PublicOnlyRoute>
+            <SignUpPage />
+          </PublicOnlyRoute>
+        }
+      />
       <Route
         path="/"
         element={
@@ -19,7 +34,14 @@ const Router = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route
+        path="/forgot-password"
+        element={
+          <PublicOnlyRoute>
+            <ForgotPassword />
+          </PublicOnlyRoute>
+        }
+      />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );

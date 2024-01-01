@@ -16,13 +16,34 @@ export const signupSchema = yup.object().shape({
     .oneOf([yup.ref("password")], "Password does not match."),
 });
 
-
 export const loginSchema = yup.object().shape({
-    email: yup.string().email().required("Email cannot be empty"),
-    password: yup.string().required("Password cannot be empty")
-})
+  email: yup.string().email().required("Email cannot be empty"),
+  password: yup.string().required("Password cannot be empty"),
+});
 
 export const otpSchema = yup.object().shape({
+  email: yup.string().email().required("Email cannot be empty"),
+  otp: yup.string(),
+});
+
+export const forgotPasswordSchema = [
+  yup.object().shape({
     email: yup.string().email().required("Email cannot be empty"),
-    otp: yup.string()
-})
+  }),
+  yup.object().shape({
+    email: yup.string().email().required("Email cannot be empty"),
+    otp: yup.string().required()
+  }),
+  yup.object().shape({
+    email: yup.string().email().required("Email cannot be empty"),
+    otp: yup.string().required(),
+    new_password: yup
+      .string()
+      .required("Password cannot be empty")
+      .min(8, "Password has to be at least 8 characters."),
+    new_password_confirmation: yup
+      .string()
+      .required("Please re-type your password.")
+      .oneOf([yup.ref("new_password")], "Password does not match."),
+  }),
+];

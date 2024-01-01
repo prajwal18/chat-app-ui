@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   setSession as setSessionFN,
   clearSession as clearSessionFN,
+  setAuthUserIsVerified,
 } from "../../utils/CookieFunctions";
 
 export type AuthUser = {
@@ -49,9 +50,16 @@ const sessionSlice = createSlice({
     },
     clearSession: (state: initialStateType) => {
       clearSessionFN();
-      state.isLoggedIn = true;
+      state.isLoggedIn = false;
       state.user = null;
       state.token = null;
+      return state;
+    },
+    setUserIsVerified: (state: initialStateType) => {
+      if (state.user) {
+        state.user.is_verified = true;
+        setAuthUserIsVerified();
+      }
       return state;
     },
   },
@@ -69,9 +77,10 @@ export const selectAuthUser = (state: any) => {
 };
 export const selectSession = (state: any) => {
   return state.session;
-}
+};
 // Selectors
 
-export const { setSession, clearSession } = sessionSlice.actions;
+export const { setSession, clearSession, setUserIsVerified } =
+  sessionSlice.actions;
 
 export default sessionSlice.reducer;

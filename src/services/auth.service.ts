@@ -1,5 +1,6 @@
 import axios, { HttpStatusCode } from "axios";
 import { endpoints } from "../utils/endpoint";
+import { FPDataType } from "../components/forgot-password/ForgotPassword";
 
 export type LoginDataType = {
   email: string;
@@ -44,9 +45,27 @@ export const verifyOtp = async (otpInfo: OtpDataType) => {
   }
 };
 
+export const verifyUser = async (otpInfo: OtpDataType) => {
+  const { data, status } = await axios.post(endpoints.otp.verifyUser, otpInfo);
+  if (status === HttpStatusCode.Ok) {
+    return data;
+  } else {
+    throw new Error("Incorrect OTP.");
+  }
+};
+
 
 export const getOtp = async (email: string) => {
   const { data, status } = await axios.post(endpoints.otp.getOtp, {email});
+  if (status === HttpStatusCode.Ok) {
+    return data;
+  } else {
+    throw new Error("Sorry cannot send OTP.");
+  }
+}
+
+export const forgotPassword = async (fpData: FPDataType) => {
+  const { data, status } = await axios.post(endpoints.auth.forgotPassword, fpData)
   if (status === HttpStatusCode.Ok) {
     return data;
   } else {
