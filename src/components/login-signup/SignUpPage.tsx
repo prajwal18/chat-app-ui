@@ -68,6 +68,7 @@ const SignupForm = () => {
         })
         .catch((error: any) => {
           formik.setSubmitting(false);
+          toast.error(error.message)
         });
     },
   });

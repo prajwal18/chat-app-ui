@@ -3,12 +3,12 @@ import {
   setSession as setSessionFN,
   clearSession as clearSessionFN,
 } from "../../utils/CookieFunctions";
-import { toast } from "react-toastify";
 
 export type AuthUser = {
   id: number;
   email: string;
   name: string;
+  is_verified: boolean;
 };
 
 type initialStateType = {

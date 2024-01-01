@@ -7,18 +7,12 @@ export type LoginDataType = {
 };
 
 export const login = async (credentials: LoginDataType) => {
-  // const { data, status } = await axios.post(endpoints.auth.login, credentials);
-  // if (status === HttpStatusCode.Ok) {
-  //   return data;
-  // } else {
-  //   throw new Error("Sorry, login failed.");
-  // }
-
-  // Right now it just returns some data
-  return {
-    user: { name: "Prajwal", email: credentials.email, id: 3 },
-    token: "fdifjdifjdddfjidj",
-  };
+  const { data, status } = await axios.post(endpoints.auth.login, credentials);
+  if (status === HttpStatusCode.Accepted) {
+    return data;
+  } else {
+    throw new Error("Sorry, login failed.");
+  }
 };
 
 export type SignupDataType = {
@@ -28,7 +22,7 @@ export type SignupDataType = {
   password_confirmation: string;
 };
 export const signup = async (userInfo: SignupDataType) => {
-  const { data, status } = await axios.post(endpoints.auth.signup, userInfo);
+  const { data, status } = await axios.post(endpoints.user.users, userInfo);
   if (status === HttpStatusCode.Created) {
     return data;
   } else {

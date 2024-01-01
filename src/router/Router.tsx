@@ -4,7 +4,7 @@ import SignUpPage from "../components/login-signup/SignUpPage";
 import LoginPage from "../components/login-signup/LoginPage";
 import NotFound from "../components/404";
 import ProtectedRoute from "./ProtectedRoute";
-import OtpPage from "../components/otp/OtpPage";
+import ForgotPassword from "../components/forgot-password/ForgotPassword";
 
 const Router = () => {
   return (
@@ -19,7 +19,7 @@ const Router = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="/test" element={<OtpPage/>} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
