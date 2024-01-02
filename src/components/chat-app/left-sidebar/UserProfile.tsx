@@ -1,4 +1,6 @@
 import { Stack, Typography, styled } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectAuthUser } from "../../../redux/slice/sessionSlice";
 
 // Styled Component
 const ProfileImgContainer = styled("img")`
@@ -13,6 +15,7 @@ export const BlueText = styled(Typography)`
 // Styled Component
 
 const UserProfile = () => {
+  const authUser = useSelector(selectAuthUser);
   return (
     <Stack direction="row" sx={{ gap: "20px" }} alignItems="center">
       <ProfileImgContainer
@@ -20,7 +23,7 @@ const UserProfile = () => {
         alt="Prajwal Gautam"
       />
       <Stack gap="1">
-        <BlueText variant="h5">Prajwal Gautam</BlueText>
+        <BlueText variant="h5">{authUser.name}</BlueText>
         <Typography>Senior Ruby Developer</Typography>
       </Stack>
     </Stack>

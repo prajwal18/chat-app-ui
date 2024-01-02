@@ -3,7 +3,8 @@ import { ChatAppSidebar } from "../ChatApp";
 
 // MUI ICON
 import SearchIcon from "@mui/icons-material/Search";
-import { FC, useEffect, useState } from "react";
+import { Dispatch } from "@reduxjs/toolkit";
+import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,16 +16,16 @@ import {
 } from "../../../redux/slice/usersSlice";
 import UserProfile from "./UserProfile";
 import UsersList from "./UsersList";
-import { Dispatch } from "@reduxjs/toolkit";
+import useAutoRefetchUsers from "../../../hooks/useAutoRefetchUsers";
 // MUI ICON
 
 const UserListSidebar = () => {
   const searchTerm = useSelector(selectSearchTerm);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetchAllUsers();
-  }, [searchTerm]);
+  useAutoRefetchUsers();
+
+
   return (
     <ChatAppSidebar spacing={4}>
       {/* Logged In User's Profile */}

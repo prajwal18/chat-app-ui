@@ -51,10 +51,20 @@ type FetchAllActiveUsersAT = {
 // Action Type
 
 // Thunk Actions
-export const fetchAllUsers = createAsyncThunk("users/fetchAllUsers", async () => {
-  const { data } = await jwtAxios.get(endpoints.user.users);
-  return data;
-});
+type argumentType = {
+  searchTerm: string;
+  authUserId: string | number;
+};
+export const fetchAllUsers = createAsyncThunk(
+  "users/fetchAllUsers",
+  async (arg: argumentType, { getState }) => {
+    const { searchTerm, authUserId } = arg;
+    const url = `${endpoints.user.users}?query=${searchTerm}`;
+    const { data } = await jwtAxios.get(url);
+    const users = data.users.filter((user: InterlocutorType) => user.id != authUserId);
+    return users;
+  }
+);
 export const fetchAllActiveUsers = createAsyncThunk(
   "users/fetchAllActiveUsers",
   async () => {
