@@ -1,112 +1,87 @@
-import {
-  Avatar,
-  Button,
-  InputAdornment,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Stack,
-  TextField,
-  Typography,
-  styled,
-} from "@mui/material";
+import { Button, InputAdornment, TextField } from "@mui/material";
 import { ChatAppSidebar } from "../ChatApp";
 
 // MUI ICON
 import SearchIcon from "@mui/icons-material/Search";
-import { useDispatch } from "react-redux";
-import { clearSession } from "../../../redux/slice/sessionSlice";
+import { FC, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { clearSession } from "../../../redux/slice/sessionSlice";
+import {
+  fetchAllUsers,
+  selectSearchTerm,
+  setSearchTerm,
+} from "../../../redux/slice/usersSlice";
+import UserProfile from "./UserProfile";
+import UsersList from "./UsersList";
+import { Dispatch } from "@reduxjs/toolkit";
 // MUI ICON
 
-// Styled Component
-const ProfileImgContainer = styled("img")`
-  height: 100px;
-  width: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-`;
-export const BlueText = styled(Typography)`
-  color: #3486eb;
-`;
-// Styled Component
-
 const UserListSidebar = () => {
+  const searchTerm = useSelector(selectSearchTerm);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, [searchTerm]);
   return (
     <ChatAppSidebar spacing={4}>
       {/* Logged In User's Profile */}
-      <UserProfle />
+      <UserProfile />
 
       {/* Search Bar */}
-      <TextField
-        placeholder="Search"
-        InputProps={{
-          style: {
-            borderRadius: "50px",
-          },
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <SearchBar searchTerm={searchTerm} dispatch={dispatch} />
 
       {/* Users you can chat to */}
-      <UserList />
+      <UsersList />
 
       {/* Logout */}
-      <Logout />
+      <Logout dispatch={dispatch} />
     </ChatAppSidebar>
   );
 };
 
-const UserProfle = () => {
+interface ISearchBar {
+  searchTerm: string;
+  dispatch: Dispatch;
+}
+const SearchBar: FC<ISearchBar> = ({ searchTerm, dispatch }) => {
+  const handleOnChange = (e: any) => {
+    const text = e.target.value;
+    dispatch(setSearchTerm(text));
+  };
   return (
-    <Stack direction="row" sx={{ gap: "20px" }} alignItems="center">
-      <ProfileImgContainer
-        src="https://avatarfiles.alphacoders.com/224/224453.jpg"
-        alt="Prajwal Gautam"
-      />
-      <Stack gap="1">
-        <BlueText variant="h5">Prajwal Gautam</BlueText>
-        <Typography>Senior Ruby Developer</Typography>
-      </Stack>
-    </Stack>
+    <TextField
+      placeholder="Search"
+      value={searchTerm}
+      onChange={handleOnChange}
+      InputProps={{
+        style: {
+          borderRadius: "50px",
+        },
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+    />
   );
 };
 
-const UserList = () => {
-  return (
-    <Stack spacing={2} sx={{ flexGrow: "1", overflowY: "auto" }}>
-      {[...Array(5).keys()].map((item: number) => (
-        <ListItem alignItems="center" key={item}>
-          <ListItemAvatar>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://avatarfiles.alphacoders.com/224/224453.jpg"
-              sx={{
-                border: item % 2 ? "3px solid #89f573" : "none",
-              }}
-            />
-          </ListItemAvatar>
-          <ListItemText primary="Maximus Iridimus Decimus" />
-        </ListItem>
-      ))}
-    </Stack>
-  );
-};
-
-const Logout = () => {
-  const dispatch = useDispatch();
+const Logout = ({ dispatch }: { dispatch: Dispatch }) => {
   const navigate = useNavigate();
   const handelLogout = () => {
     dispatch(clearSession());
     navigate("/login");
     toast.info("You are logged out.");
   };
-  return <Button onClick={handelLogout} variant="outlined">Log out</Button>;
+  return (
+    <Button onClick={handelLogout} variant="outlined">
+      Log out
+    </Button>
+  );
 };
 
 export default UserListSidebar;

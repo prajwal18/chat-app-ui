@@ -1,10 +1,10 @@
 import { Box, Fab, Stack, Typography, styled } from "@mui/material";
 import { ChatAppSidebar } from "../ChatApp";
-import { BlueText } from "../left-sidebar/UserListSidebar";
 
 // MUI Icons
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import VideocamIcon from "@mui/icons-material/Videocam";
+import { BlueText } from "../left-sidebar/UserProfile";
 // MUI Icons
 
 // Styled Component

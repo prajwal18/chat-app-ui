@@ -51,11 +51,11 @@ type FetchAllActiveUsersAT = {
 // Action Type
 
 // Thunk Actions
-const fetchAllUsers = createAsyncThunk("users/fetchAllUsers", async () => {
+export const fetchAllUsers = createAsyncThunk("users/fetchAllUsers", async () => {
   const { data } = await jwtAxios.get(endpoints.user.users);
   return data;
 });
-const fetchAllActiveUsers = createAsyncThunk(
+export const fetchAllActiveUsers = createAsyncThunk(
   "users/fetchAllActiveUsers",
   async () => {
     const { data } = await jwtAxios.get(endpoints.user.users);
@@ -133,5 +133,5 @@ export const selectIsLoadingActiveUsers = (state: any) => {
   return state.users.isLoadingActiveUsers;
 };
 
-export const {} = usersSlice.actions;
+export const { setSearchTerm, setUsers, setActiveUsers } = usersSlice.actions;
 export default usersSlice.reducer;

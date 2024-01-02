@@ -1,9 +1,9 @@
 import { Box, Fab, Stack, TextField, Typography, styled } from "@mui/material";
-import { BlueText } from "../left-sidebar/UserListSidebar";
 
 // Icons
 import SendIcon from "@mui/icons-material/Send";
 import { FC } from "react";
+import { BlueText } from "../left-sidebar/UserProfile";
 // Icons
 
 // Styled Componenet
