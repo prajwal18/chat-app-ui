@@ -1,13 +1,42 @@
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Stack } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectUsers } from "../../../redux/slice/usersSlice";
+import {
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Stack,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  InterlocutorType,
+  selectInterlocutor,
+  selectUsers,
+  setInterlocutor,
+} from "../../../redux/slice/usersSlice";
+
+const getBgColor = (id: number, interlocutor: null | InterlocutorType) => {
+  return interlocutor?.id == id ? "#C8C8C8" : "inherit";
+};
 
 const UsersList = () => {
+  const dispatch = useDispatch();
   const users = useSelector(selectUsers);
+  const interlocutor = useSelector(selectInterlocutor);
+  const handleOnClick = (user: InterlocutorType) => {
+    dispatch(setInterlocutor(user));
+  };
   return (
     <Stack spacing={2} sx={{ flexGrow: "1", overflowY: "auto" }}>
-      {users.map((user:any, index: number) => (
-        <ListItem alignItems="center" key={user.id}>
+      {users.map((user: InterlocutorType, index: number) => (
+        <ListItem
+          alignItems="center"
+          key={user.id}
+          onClick={() => handleOnClick(user)}
+          sx={{
+            background: getBgColor(user.id, interlocutor),
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
           <ListItemAvatar>
             <Avatar
               alt="Remy Sharp"

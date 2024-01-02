@@ -31,6 +31,10 @@ type SetSearchTermAT = {
   type: any;
   payload: string;
 };
+type SetInterlocutorAT = {
+  type: any;
+  payload: InterlocutorType;
+};
 type SetUsersAT = {
   type: any;
   payload: Array<InterlocutorType>;
@@ -84,6 +88,10 @@ const usersSlice = createSlice({
     },
     setUsers: (state: any, action: SetUsersAT) => {
       state.users = action.payload;
+      return state;
+    },
+    setInterlocutor: (state: any, action: SetInterlocutorAT) => {
+      state.interlocutor = action.payload;
       return state;
     },
     setActiveUsers: (state: any, action: SetActiveUsersAT) => {
@@ -143,5 +151,5 @@ export const selectIsLoadingActiveUsers = (state: any) => {
   return state.users.isLoadingActiveUsers;
 };
 
-export const { setSearchTerm, setUsers, setActiveUsers } = usersSlice.actions;
+export const { setSearchTerm, setUsers, setActiveUsers, setInterlocutor } = usersSlice.actions;
 export default usersSlice.reducer;
