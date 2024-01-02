@@ -10,18 +10,13 @@ import {
   selectIsLoggedIn,
   setUserIsVerified,
 } from "../../redux/slice/sessionSlice";
-import {
-  OtpDataType,
-  getOtp,
-  verifyOtp,
-  verifyUser,
-} from "../../services/auth.service";
 import { otpSchema } from "../../utils/yup/authSchemas";
 import { Pages, getPageTitle } from "./utils";
 import GetPage from "./GetPage";
 
 // MUI Icon
 import LogoutIcon from "@mui/icons-material/Logout";
+import { OtpDataType, getOtp, verifyUser } from "../../services/otp.service";
 // MUI Icon
 
 export const OTPContainer = ({

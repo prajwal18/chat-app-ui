@@ -1,8 +1,10 @@
 import { ToastContainer } from "react-toastify";
-import Router from "./router/Router";
 import useFetchSessionFromCookieAndUpdateStore from "./hooks/useFetchSessionFromCookieAndUpdateStore";
+import Router from "./router/Router";
+
 
 function App() {
+
   useFetchSessionFromCookieAndUpdateStore();
 
   return (

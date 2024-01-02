@@ -1,25 +1,30 @@
 import { FC } from "react";
+import { Container, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectSession } from "../redux/slice/sessionSlice";
-import { Container, Typography } from "@mui/material";
 import OtpPage from "../components/otp/OtpPage";
+import { selectSession } from "../redux/slice/sessionSlice";
 
 interface IProtectedRoute {
   children: JSX.Element;
 }
 const ProtectedRoute: FC<IProtectedRoute> = ({ children }) => {
   const currentSession = useSelector(selectSession);
-
-  return (
-    <>
-      {currentSession.isLoggedIn ? (
-        <>{currentSession?.user && currentSession.user.is_verified ? children : <OtpPage />}</>
-      ) : (
-        <RerouteToLoginComponent />
-      )}
-    </>
-  );
+    return (
+      <>
+        {currentSession.isLoggedIn ? (
+          <>
+            {currentSession?.user && currentSession.user.is_verified ? (
+              children
+            ) : (
+              <OtpPage />
+            )}
+          </>
+        ) : (
+          <RerouteToLoginComponent />
+        )}
+      </>
+    );
 };
 
 const RerouteToLoginComponent = () => {

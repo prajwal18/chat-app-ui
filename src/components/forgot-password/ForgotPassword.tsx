@@ -3,11 +3,12 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { forgotPassword, getOtp, verifyOtp } from "../../services/auth.service";
+import { forgotPassword } from "../../services/auth.service";
 import { forgotPasswordSchema } from "../../utils/yup/authSchemas";
 import { OTPContainer } from "../otp/OtpPage";
 import GetPage from "./GetPage";
 import { Pages, getPageTitle } from "./utils";
+import { getOtp, verifyOtp } from "../../services/otp.service";
 
 export type FPDataType = {
   email: string;
