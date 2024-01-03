@@ -4,9 +4,11 @@ import InterlocutorProfile from "./InterlocutorProfile";
 import SendMessage from "./SendMessage";
 import { useSelector } from "react-redux";
 import { selectInterlocutor } from "../../../redux/slice/usersSlice";
+import useAutoRefetchConversation from "../../../hooks/useAutoRefetchConversation";
 
 const ChatBox = () => {
   const interlocutor = useSelector(selectInterlocutor);
+  useAutoRefetchConversation();
   return (
     <Stack sx={{ minWidth: "500px", flexGrow: 1 }}>
       {interlocutor ? (
@@ -15,7 +17,7 @@ const ChatBox = () => {
           <InterlocutorProfile interlocutor={interlocutor} />
 
           {/* Conversation */}
-          <ConversationRecord />
+          <ConversationRecord  interlocutorId={interlocutor.id}/>
 
           {/* Send Message */}
           <SendMessage />

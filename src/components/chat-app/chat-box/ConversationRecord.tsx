@@ -1,11 +1,18 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { FC } from "react";
+import { useSelector } from "react-redux";
+import {
+  MessageType,
+  selectConversation,
+  selectIsLoadingConversation,
+} from "../../../redux/slice/conversationSlice";
 
 interface IMessage {
   message: string;
   isFromMe: boolean;
+  sender: string;
 }
-const Message: FC<IMessage> = ({ message, isFromMe }) => {
+const Message: FC<IMessage> = ({ message, isFromMe, sender }) => {
   const messageStyle = isFromMe
     ? { borderBottomRightRadius: "0px", background: "#4399FF", color: "white" }
     : { borderBottomLeftRadius: "0px", background: "#DCE8FF" };
@@ -21,28 +28,37 @@ const Message: FC<IMessage> = ({ message, isFromMe }) => {
           textAlign: isFromMe ? "end" : "start",
         }}
       >
-        {isFromMe ? "Prajwal" : "Maximus"}
+        {sender}
       </Typography>
     </Stack>
   );
 };
 
-const ConversationRecord = () => {
+interface IConversationRecord {
+  interlocutorId: number;
+}
+
+const ConversationRecord: FC<IConversationRecord> = ({ interlocutorId }) => {
+  const conversation = useSelector(selectConversation);
+  const isLoadingConversation = useSelector(selectIsLoadingConversation);
   return (
     <Stack sx={{ flexGrow: 1, p: "20px", overflowY: "auto" }} spacing={1}>
-      <Message isFromMe={false} message="Hello" />
-      <Message isFromMe={true} message="What up" />
-      <Message isFromMe={false} message="All Good" />
-      <Message isFromMe={true} message="How are you liking Rails lately?" />
-      <Message isFromMe={false} message="It's awesome." />
-      <Message isFromMe={true} message="Ok Bye" />
-      <Message isFromMe={false} message="Bye" />
-      <Message isFromMe={true} message="What up" />
-      <Message isFromMe={false} message="All Good" />
-      <Message isFromMe={true} message="How are you liking Rails lately?" />
-      <Message isFromMe={false} message="It's awesome." />
-      <Message isFromMe={true} message="Ok Bye" />
-      <Message isFromMe={false} message="Bye" />
+      {isLoadingConversation ? (
+        <Typography>Loading...</Typography>
+      ) : (
+        <>
+          {conversation.map((message: MessageType) => {
+            const isFromMe = message.sender.id !== interlocutorId;
+            return (
+              <Message
+                isFromMe={isFromMe}
+                message={message.message}
+                sender={message.sender.name}
+              />
+            );
+          })}
+        </>
+      )}
     </Stack>
   );
 };
