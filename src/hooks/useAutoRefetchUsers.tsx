@@ -10,7 +10,7 @@ const useAutoRefetchUsers = () => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchAllUsers({searchTerm, authUserId}));
-  }, [searchTerm]);
+  }, [searchTerm, authUserId]);
 };
 
 export default useAutoRefetchUsers;

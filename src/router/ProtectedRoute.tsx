@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Container, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,21 +10,29 @@ interface IProtectedRoute {
 }
 const ProtectedRoute: FC<IProtectedRoute> = ({ children }) => {
   const currentSession = useSelector(selectSession);
-    return (
-      <>
-        {currentSession.isLoggedIn ? (
-          <>
-            {currentSession?.user && currentSession.user.is_verified ? (
-              children
-            ) : (
-              <OtpPage />
-            )}
-          </>
-        ) : (
-          <RerouteToLoginComponent />
-        )}
-      </>
-    );
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsInitialRender(false);
+    }, 100);
+  }, []);
+  return (
+    <>
+      {isInitialRender ? (
+        <Typography>Loading...</Typography>
+      ) : currentSession.isLoggedIn ? (
+        <>
+          {currentSession?.user && currentSession.user.is_verified ? (
+            children
+          ) : (
+            <OtpPage />
+          )}
+        </>
+      ) : (
+        <RerouteToLoginComponent />
+      )}
+    </>
+  );
 };
 
 const RerouteToLoginComponent = () => {

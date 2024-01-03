@@ -5,6 +5,8 @@ import { ChatAppSidebar } from "../ChatApp";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import { BlueText } from "../left-sidebar/UserProfile";
+import { useSelector } from "react-redux";
+import { selectInterlocutor } from "../../../redux/slice/usersSlice";
 // MUI Icons
 
 // Styled Component
@@ -17,6 +19,7 @@ const ProfileImg = styled("img")`
 // Styled Component
 
 const InterlocutorProfileSidebar = () => {
+  const interlocutor = useSelector(selectInterlocutor);
   return (
     <ChatAppSidebar
       sx={{ paddingTop: "100px", alignItems: "center" }}
@@ -26,13 +29,17 @@ const InterlocutorProfileSidebar = () => {
         src="https://avatarfiles.alphacoders.com/224/224453.jpg"
         alt="Maximus Iridimus Decimus"
       />
-      <Stack spacing={1}>
-        <BlueText variant="h5"> 
-          Maximus Iridimus Decimus
-        </BlueText>
-        <Typography variant="h6" sx={{ textAlign: "center" }}>
-          Junior developer
-        </Typography>
+      <Stack spacing={1} sx={{textAlign:"center"}}>
+        {interlocutor ? (
+          <>
+            <BlueText variant="h5">{interlocutor.name}</BlueText>
+            <Typography variant="h6" sx={{ textAlign: "center" }}>
+              {interlocutor.email}
+            </Typography>
+          </>
+        ) : (
+          <Typography sx={{ color: "grey" }}>User not selected</Typography>
+        )}
       </Stack>
 
       <Stack
@@ -42,17 +49,17 @@ const InterlocutorProfileSidebar = () => {
         spacing={3}
       >
         <Stack alignItems="center" spacing={1}>
-          <Fab color="primary" aria-label="add">
+          <Fab color="primary" aria-label="add" disabled={!interlocutor}>
             <ChatBubbleIcon />
           </Fab>
-          <Typography sx={{color:"#8c8c8c"}}>Chat</Typography>
+          <Typography sx={{ color: "#8c8c8c" }}>Chat</Typography>
         </Stack>
         <VerticalDivider />
         <Stack alignItems="center" spacing={1}>
-          <Fab color="primary" aria-label="add">
+          <Fab color="primary" aria-label="add" disabled={!interlocutor}>
             <VideocamIcon />
           </Fab>
-          <Typography sx={{color:"#8c8c8c"}}>Video call</Typography>
+          <Typography sx={{ color: "#8c8c8c" }}>Video call</Typography>
         </Stack>
       </Stack>
     </ChatAppSidebar>
