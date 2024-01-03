@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { FC } from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import {
   MessageType,
@@ -50,11 +50,13 @@ const ConversationRecord: FC<IConversationRecord> = ({ interlocutorId }) => {
           {conversation.map((message: MessageType) => {
             const isFromMe = message.sender.id !== interlocutorId;
             return (
-              <Message
-                isFromMe={isFromMe}
-                message={message.message}
-                sender={message.sender.name}
-              />
+              <React.Fragment key={message.id}>
+                <Message
+                  isFromMe={isFromMe}
+                  message={message.message}
+                  sender={message.sender.name}
+                />
+              </React.Fragment>
             );
           })}
         </>

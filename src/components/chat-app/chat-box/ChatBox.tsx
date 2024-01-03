@@ -20,7 +20,7 @@ const ChatBox = () => {
           <ConversationRecord  interlocutorId={interlocutor.id}/>
 
           {/* Send Message */}
-          <SendMessage />
+          <SendMessage receiverId={interlocutor.id} />
         </>
       ) : (
         <Stack
