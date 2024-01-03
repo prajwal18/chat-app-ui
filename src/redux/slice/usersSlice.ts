@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import jwtAxios from "../../utils/jwtAxios";
 import { endpoints } from "../../utils/endpoint";
+import jwtAxios from "../../utils/jwtAxios";
 
 export type InterlocutorType = {
   id: number;
@@ -64,15 +64,17 @@ export const fetchAllUsers = createAsyncThunk(
   async (arg: argumentType, { getState }) => {
     const { searchTerm, authUserId } = arg;
     const url = `${endpoints.user.users}?query=${searchTerm}`;
-    const { data } = await jwtAxios.get(url);
-    const users = data.users.filter((user: InterlocutorType) => user.id != authUserId);
+    const { data } = await jwtAxios().get(url);
+    const users = data.users.filter(
+      (user: InterlocutorType) => user.id != authUserId
+    );
     return users;
   }
 );
 export const fetchAllActiveUsers = createAsyncThunk(
   "users/fetchAllActiveUsers",
   async () => {
-    const { data } = await jwtAxios.get(endpoints.user.users);
+    const { data } = await jwtAxios().get(endpoints.user.users);
     return data;
   }
 );
@@ -151,5 +153,6 @@ export const selectIsLoadingActiveUsers = (state: any) => {
   return state.users.isLoadingActiveUsers;
 };
 
-export const { setSearchTerm, setUsers, setActiveUsers, setInterlocutor } = usersSlice.actions;
+export const { setSearchTerm, setUsers, setActiveUsers, setInterlocutor } =
+  usersSlice.actions;
 export default usersSlice.reducer;

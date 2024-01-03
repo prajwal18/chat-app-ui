@@ -1,6 +1,7 @@
-const baseURL = 'http://localhost:3000'
+const baseURL = "http://localhost:3000";
+export const wsURL = "ws://localhost:3000/cable";
 
-type IdType = number | string
+type IdType = number | string;
 
 export const endpoints = {
   auth: {
@@ -10,13 +11,14 @@ export const endpoints = {
 
   user: {
     users: baseURL + "/users",
-    userFn: (id:number|string) => `${baseURL}/users/${id}`,
+    userFn: (id: number | string) => `${baseURL}/users/${id}`,
     changePasswordFn: (id: IdType) => `${baseURL}/users/${id}/change-password`,
   },
 
   message: {
-    getAConversationFn: (id: IdType) => `${baseURL}/messages/conversation/${id}`,
-    create: baseURL + "/messages"
+    getAConversationFn: (id: IdType) =>
+      `${baseURL}/messages/conversation/${id}`,
+    create: baseURL + "/messages",
   },
 
   otp: {

@@ -7,7 +7,7 @@ export type CreateMessageType = {
   message: string;
 };
 export const sendMessage = async (message: CreateMessageType) => { 
-  const { data, status } = await jwtAxios.post(
+  const { data, status } = await jwtAxios().post(
     endpoints.message.create,
     message
   );

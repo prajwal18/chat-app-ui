@@ -4,26 +4,22 @@ import { ChatAppSidebar } from "../ChatApp";
 // MUI ICON
 import SearchIcon from "@mui/icons-material/Search";
 import { Dispatch } from "@reduxjs/toolkit";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearSession } from "../../../redux/slice/sessionSlice";
 import {
-  fetchAllUsers,
   selectSearchTerm,
-  setSearchTerm,
+  setSearchTerm
 } from "../../../redux/slice/usersSlice";
 import UserProfile from "./UserProfile";
 import UsersList from "./UsersList";
-import useAutoRefetchUsers from "../../../hooks/useAutoRefetchUsers";
 // MUI ICON
 
 const UserListSidebar = () => {
   const searchTerm = useSelector(selectSearchTerm);
   const dispatch = useDispatch();
-
-  useAutoRefetchUsers();
 
 
   return (

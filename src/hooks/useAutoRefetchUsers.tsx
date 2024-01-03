@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { selectAuthUser } from "../redux/slice/sessionSlice";
 import { fetchAllUsers, selectSearchTerm } from "../redux/slice/usersSlice";
 import { AppDispatch } from "../redux/store";
-import { selectAuthUser } from "../redux/slice/sessionSlice";
 
 const useAutoRefetchUsers = () => {
   const searchTerm = useSelector(selectSearchTerm);
-  const authUserId = useSelector(selectAuthUser).id;
+  const authUser = useSelector(selectAuthUser);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(fetchAllUsers({searchTerm, authUserId}));
-  }, [searchTerm, authUserId]);
+    if (authUser) {
+      const authUserId = authUser.id;
+      dispatch(fetchAllUsers({ searchTerm, authUserId }));
+    }
+  }, [searchTerm, authUser]);
 };
 
 export default useAutoRefetchUsers;

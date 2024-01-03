@@ -93,7 +93,7 @@ const LoginForm = () => {
           formik.setFieldError("email", "Incorrect username or password");
           formik.setFieldError("password", "Incorrect username or password");
           formik.setSubmitting(false);
-          toast.error(error.message)
+          toast.error(error.message);
         });
     },
   });
@@ -144,14 +144,10 @@ const FormFotter = () => {
     <>
       <Grid container>
         <Grid item xs>
-          <Link to="/forgot-password">
-            Forgot password?
-          </Link>
+          <Link to="/forgot-password">Forgot password?</Link>
         </Grid>
         <Grid item>
-          <Link to="/signup">
-            {"Don't have an account? Sign Up"}
-          </Link>
+          <Link to="/signup">{"Don't have an account? Sign Up"}</Link>
         </Grid>
       </Grid>
       <Copyright sx={{ mt: 5 }} />

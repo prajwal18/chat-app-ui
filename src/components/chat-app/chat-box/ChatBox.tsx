@@ -1,14 +1,20 @@
 import { Stack, Typography } from "@mui/material";
+import ActionCable from 'actioncable';
+import { useSelector } from "react-redux";
+import useAutoRefetchConversation from "../../../hooks/useAutoRefetchConversation";
+import { selectInterlocutor } from "../../../redux/slice/usersSlice";
+import { wsURL } from "../../../utils/endpoint";
 import ConversationRecord from "./ConversationRecord";
 import InterlocutorProfile from "./InterlocutorProfile";
 import SendMessage from "./SendMessage";
-import { useSelector } from "react-redux";
-import { selectInterlocutor } from "../../../redux/slice/usersSlice";
-import useAutoRefetchConversation from "../../../hooks/useAutoRefetchConversation";
+
+const CableApp:any = {}
+CableApp.cable = ActionCable.createConsumer(wsURL)
 
 const ChatBox = () => {
   const interlocutor = useSelector(selectInterlocutor);
   useAutoRefetchConversation();
+
   return (
     <Stack sx={{ minWidth: "500px", flexGrow: 1 }}>
       {interlocutor ? (

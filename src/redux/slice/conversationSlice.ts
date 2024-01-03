@@ -44,7 +44,7 @@ export const fetchConversation = createAsyncThunk(
   "conversation/fetchConversation",
   async (interlocutor_id: number, { getState }) => {
     const url = endpoints.message.getAConversationFn(interlocutor_id);
-    const { data } = await jwtAxios.get(url);
+    const { data } = await jwtAxios().get(url);
     const conversation = data.messages;
     return conversation;
   }

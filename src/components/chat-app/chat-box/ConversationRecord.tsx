@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   MessageType,
@@ -41,6 +41,12 @@ interface IConversationRecord {
 const ConversationRecord: FC<IConversationRecord> = ({ interlocutorId }) => {
   const conversation = useSelector(selectConversation);
   const isLoadingConversation = useSelector(selectIsLoadingConversation);
+  const conversatinRef = useRef<null | HTMLDivElement>(null);
+  useEffect(() => {
+    if (conversatinRef.current) {
+      conversatinRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   return (
     <Stack sx={{ flexGrow: 1, p: "20px", overflowY: "auto" }} spacing={1}>
       {isLoadingConversation ? (
@@ -59,6 +65,7 @@ const ConversationRecord: FC<IConversationRecord> = ({ interlocutorId }) => {
               </React.Fragment>
             );
           })}
+          <div ref={conversatinRef} />
         </>
       )}
     </Stack>
