@@ -10,12 +10,15 @@ import {
 } from "../../../services/message.service";
 import { sendMessageSchema } from "../../../utils/yup/messageSchema";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { appendToConversation } from "../../../redux/slice/conversationSlice";
 // Icons
 
 interface ISendMessage {
   receiverId: number;
 }
 const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { receiver_id: receiverId, message: "" },
     enableReinitialize: true,
@@ -23,10 +26,12 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
     onSubmit: (values: CreateMessageType) => {
       console.log(values);
       sendMessage(values)
-        .then((_data) => {
+        .then((data) => {
           formik.setSubmitting(false);
           formik.setFieldValue("message", "");
           formik.setFieldTouched("message", false);
+          const message = data.message
+          dispatch(appendToConversation(message));
         })
         .catch((_error: any) => {
           formik.setSubmitting(false);

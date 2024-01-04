@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import ActionCable from 'actioncable';
+import ActionCable from "actioncable";
 import { useSelector } from "react-redux";
 import useAutoRefetchConversation from "../../../hooks/useAutoRefetchConversation";
 import { selectInterlocutor } from "../../../redux/slice/usersSlice";
@@ -7,12 +7,14 @@ import { wsURL } from "../../../utils/endpoint";
 import ConversationRecord from "./ConversationRecord";
 import InterlocutorProfile from "./InterlocutorProfile";
 import SendMessage from "./SendMessage";
+import { selectAuthUser } from "../../../redux/slice/sessionSlice";
 
-const CableApp:any = {}
-CableApp.cable = ActionCable.createConsumer(wsURL)
+const CableApp: any = {};
+CableApp.cable = ActionCable.createConsumer(wsURL);
 
 const ChatBox = () => {
   const interlocutor = useSelector(selectInterlocutor);
+  const authUser = useSelector(selectAuthUser);
   useAutoRefetchConversation();
 
   return (
@@ -23,7 +25,11 @@ const ChatBox = () => {
           <InterlocutorProfile interlocutor={interlocutor} />
 
           {/* Conversation */}
-          <ConversationRecord  interlocutorId={interlocutor.id}/>
+          <ConversationRecord
+            interlocutorId={interlocutor.id}
+            cable={CableApp.cable}
+            myId={authUser.id}
+          />
 
           {/* Send Message */}
           <SendMessage receiverId={interlocutor.id} />

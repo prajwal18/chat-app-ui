@@ -1,8 +1,9 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { FC, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   MessageType,
+  appendToConversation,
   selectConversation,
   selectIsLoadingConversation,
 } from "../../../redux/slice/conversationSlice";
@@ -36,19 +37,45 @@ const Message: FC<IMessage> = ({ message, isFromMe, sender }) => {
 
 interface IConversationRecord {
   interlocutorId: number;
+  myId: number;
+  cable: any;
 }
 
-const ConversationRecord: FC<IConversationRecord> = ({ interlocutorId }) => {
+const ConversationRecord: FC<IConversationRecord> = ({
+  interlocutorId,
+  cable,
+  myId,
+}) => {
   const conversation = useSelector(selectConversation);
   const isLoadingConversation = useSelector(selectIsLoadingConversation);
+  const dispatch = useDispatch();
   const conversatinRef = useRef<null | HTMLDivElement>(null);
+
   useEffect(() => {
     if (conversatinRef.current) {
-      conversatinRef.current.scrollIntoView({ behavior: "smooth" });
+      conversatinRef.current.scrollTo(0, conversatinRef.current.scrollHeight);
     }
-  }, []);
+  }, [conversation]);
+
+  cable.subscriptions.create(
+    {
+      channel: "ChatsChannel",
+      receiver_id: myId,
+    },
+    {
+      received: (data: any) => {
+        console.log(data);
+        dispatch(appendToConversation(data.message));
+      },
+    }
+  );
+
   return (
-    <Stack sx={{ flexGrow: 1, p: "20px", overflowY: "auto" }} spacing={1}>
+    <Stack
+      sx={{ flexGrow: 1, p: "20px", overflowY: "auto" }}
+      spacing={1}
+      ref={conversatinRef}
+    >
       {isLoadingConversation ? (
         <Typography>Loading...</Typography>
       ) : (
@@ -65,7 +92,6 @@ const ConversationRecord: FC<IConversationRecord> = ({ interlocutorId }) => {
               </React.Fragment>
             );
           })}
-          <div ref={conversatinRef} />
         </>
       )}
     </Stack>

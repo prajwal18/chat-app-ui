@@ -37,6 +37,11 @@ type FetchConversationAT = {
   type: string;
   payload: Array<MessageType>;
 };
+type AppendToConversationAT = {
+  type: string;
+  payload: MessageType;
+};
+
 // Action Type
 
 // Thunk Actions
@@ -62,6 +67,16 @@ const conversationSlice = createSlice({
       state.isLoadingConversation = action.payload;
       return state;
     },
+    appendToConversation: (state: any, action: AppendToConversationAT) => {
+      const message = state.conversation.some(
+        (message: MessageType) => message.id == action.payload.id
+      );
+      if (!message) {
+        state.conversation.push(action.payload);
+        state.conversation = JSON.parse(JSON.stringify(state.conversation));
+      }
+      return state;
+    },
     setConversation: (state: any, action: SetConversationAT) => {
       state.conversation = action.payload;
       return state;
@@ -82,7 +97,7 @@ const conversationSlice = createSlice({
       .addCase(fetchConversation.rejected, (state: any) => {
         state.conversation = [];
         state.isLoadingConversation = false;
-        toast.error("Sorry! failed to load conversation.")
+        toast.error("Sorry! failed to load conversation.");
       });
   },
 });
@@ -96,6 +111,9 @@ export const selectIsLoadingConversation = (state: any) => {
 };
 // Selectors
 
-export const { setIsLoadingConversation, setConversation } =
-  conversationSlice.actions;
+export const {
+  setIsLoadingConversation,
+  setConversation,
+  appendToConversation,
+} = conversationSlice.actions;
 export default conversationSlice.reducer;
