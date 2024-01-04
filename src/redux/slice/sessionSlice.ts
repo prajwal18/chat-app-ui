@@ -5,7 +5,7 @@ import {
   setAuthUserIsVerified,
 } from "../../utils/CookieFunctions";
 
-export type AuthUser = {
+export type AuthUserType = {
   id: number;
   email: string;
   name: string;
@@ -13,7 +13,7 @@ export type AuthUser = {
 };
 
 type initialStateType = {
-  user: AuthUser | null;
+  user: AuthUserType | null;
   token: string | null;
   isLoggedIn: boolean;
 };
@@ -26,7 +26,7 @@ const initialState: initialStateType = {
 
 // Action Types
 export type sessionInfoType = {
-  user: AuthUser;
+  user: AuthUserType;
   token: string;
 };
 type SetSessionAT = {

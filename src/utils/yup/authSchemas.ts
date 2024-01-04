@@ -32,7 +32,7 @@ export const forgotPasswordSchema = [
   }),
   yup.object().shape({
     email: yup.string().email().required("Email cannot be empty"),
-    otp: yup.string().required()
+    otp: yup.string().required(),
   }),
   yup.object().shape({
     email: yup.string().email().required("Email cannot be empty"),

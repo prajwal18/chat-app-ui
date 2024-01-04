@@ -1,34 +1,12 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 
-
-
-
-
 // Delete this later
-function convertUTCDateToLocalDate(date: Date) {
-    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
-
-    var offset = date.getTimezoneOffset() / 60;
-    var hours = date.getHours();
-
-    newDate.setHours(hours - offset);
-
-    return newDate;   
-}
-
-function getDateTimeString(d: string) {
-
-    const date = new Date(d)
-    const myDate = convertUTCDateToLocalDate(date)
-    console.log(myDate)
-    return myDate.toLocaleString
+function getLocalDateTimeString(dateString: string) {
+  const date = new Date(dateString); // Convert to local Date time
+  return date.toString().split(" ").slice(0, 5).join(" ");
 }
 // Delete this later
-
-
-
-
 
 interface IMetaInfo {
   show: boolean;
@@ -60,9 +38,8 @@ interface IMessage {
   createdAt: string;
 }
 const Message: FC<IMessage> = ({ message, isFromMe, sender, createdAt }) => {
-    const [showMetaInfo, setShowMetaInfo] = useState(false);
-    const toggleShowMetaInfo = () => {
-      getDateTimeString(createdAt)
+  const [showMetaInfo, setShowMetaInfo] = useState(false);
+  const toggleShowMetaInfo = () => {
     setShowMetaInfo((state) => !state);
   };
   const messageStyle = isFromMe
@@ -70,14 +47,19 @@ const Message: FC<IMessage> = ({ message, isFromMe, sender, createdAt }) => {
     : { borderBottomLeftRadius: "0px", background: "#DCE8FF" };
   return (
     <Stack alignSelf={isFromMe ? "flex-end" : "flex-start"} spacing={1}>
-      <MetaInfo show={showMetaInfo} isFromMe={isFromMe} text={createdAt} />
-
-      <Box
-        sx={{ p: "20px", borderRadius: "30px", ...messageStyle }}
-        onClick={toggleShowMetaInfo}
-      >
-        <Typography>{message}</Typography>
-      </Box>
+      <MetaInfo
+        show={showMetaInfo}
+        isFromMe={isFromMe}
+        text={getLocalDateTimeString(createdAt)}
+      />
+      <Stack direction={"row"} justifyContent={"flex-start"}>
+        <Box
+          sx={{ p: "20px", borderRadius: "30px", ...messageStyle }}
+          onClick={toggleShowMetaInfo}
+        >
+          <Typography>{message}</Typography>
+        </Box>
+      </Stack>
       <MetaInfo show={showMetaInfo} isFromMe={isFromMe} text={sender} />
     </Stack>
   );
