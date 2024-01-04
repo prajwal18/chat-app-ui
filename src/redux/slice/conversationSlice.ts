@@ -12,6 +12,7 @@ export type MessageType = {
   message: string;
   sender: SenderReciverType;
   receiver: SenderReciverType;
+  created_at: string
 };
 
 type initialStateType = {

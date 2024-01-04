@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import React, { FC, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,33 +7,9 @@ import {
   selectConversation,
   selectIsLoadingConversation,
 } from "../../../redux/slice/conversationSlice";
+import Message from "./Message";
 
-interface IMessage {
-  message: string;
-  isFromMe: boolean;
-  sender: string;
-}
-const Message: FC<IMessage> = ({ message, isFromMe, sender }) => {
-  const messageStyle = isFromMe
-    ? { borderBottomRightRadius: "0px", background: "#4399FF", color: "white" }
-    : { borderBottomLeftRadius: "0px", background: "#DCE8FF" };
-  return (
-    <Stack alignSelf={isFromMe ? "flex-end" : "flex-start"} spacing={1}>
-      <Box sx={{ p: "20px", borderRadius: "8px", ...messageStyle }}>
-        <Typography>{message}</Typography>
-      </Box>
-      <Typography
-        sx={{
-          fontSize: "10px",
-          opacity: "0.7",
-          textAlign: isFromMe ? "end" : "start",
-        }}
-      >
-        {sender}
-      </Typography>
-    </Stack>
-  );
-};
+
 
 interface IConversationRecord {
   interlocutorId: number;
@@ -73,7 +49,7 @@ const ConversationRecord: FC<IConversationRecord> = ({
   return (
     <Stack
       sx={{ flexGrow: 1, p: "20px", overflowY: "auto" }}
-      spacing={1}
+      spacing={2}
       ref={conversatinRef}
     >
       {isLoadingConversation ? (
@@ -88,6 +64,7 @@ const ConversationRecord: FC<IConversationRecord> = ({
                   isFromMe={isFromMe}
                   message={message.message}
                   sender={message.sender.name}
+                  createdAt={message.created_at}
                 />
               </React.Fragment>
             );
