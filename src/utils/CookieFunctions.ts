@@ -1,12 +1,12 @@
 import Cookies from "universal-cookie";
-import { sessionInfoType } from "../redux/slice/sessionSlice";
+import { SessionInfoType } from "../redux/slice/sessionSlice";
 
 const cookie = new Cookies();
 
 // Session will be stored in session as session_info
 // JWT token will be stored in cookie as token
 
-export const setSession = (data: sessionInfoType) => {
+export const setSession = (data: SessionInfoType) => {
   cookie.set("token", data.token);
   sessionStorage.setItem("user", JSON.stringify(data.user));
 };

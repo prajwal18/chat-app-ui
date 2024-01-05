@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3000";
+export const baseURL = "http://localhost:3000";
 export const wsURL = "ws://localhost:3000/cable";
 
 type IdType = number | string;
@@ -11,6 +11,7 @@ export const endpoints = {
 
   user: {
     users: baseURL + "/users",
+    editUserFn: (id: number | string) => `${baseURL}/users/${id}`,
     userFn: (id: number | string) => `${baseURL}/users/${id}`,
     changePasswordFn: (id: IdType) => `${baseURL}/users/${id}/change-password`,
   },

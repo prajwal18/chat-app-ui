@@ -10,6 +10,7 @@ export type AuthUserType = {
   email: string;
   name: string;
   is_verified: boolean;
+  profile_picture: string;
 };
 
 type initialStateType = {
@@ -25,13 +26,13 @@ const initialState: initialStateType = {
 };
 
 // Action Types
-export type sessionInfoType = {
+export type SessionInfoType = {
   user: AuthUserType;
   token: string;
 };
 type SetSessionAT = {
   type: any;
-  payload: sessionInfoType;
+  payload: SessionInfoType;
 };
 // Action Types
 

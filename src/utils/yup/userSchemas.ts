@@ -14,3 +14,17 @@ export const changePasswordSchema = yup.object().shape({
       "Old and new password cannot be the same"
     ),
 });
+
+export type EditUserType = {
+  name: string;
+  email: string;
+  profile_picture: string;
+};
+
+export const editUserSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Name cannot be empty")
+    .min(5, "User name has to be at least 5 characters."),
+  email: yup.string().email().required("Email cannot be empty"),
+});
