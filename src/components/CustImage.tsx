@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { baseURL } from "../utils/endpoint";
+import convertToBase64 from "../utils/convertToBase64";
 
 interface ICustImage {
   src: string;
@@ -10,19 +10,17 @@ interface ICustImage {
 const CustImage: FC<ICustImage> = ({ src, errImg, style, alt }) => {
   const [srcPic, setSrcPic] = useState<any>(null);
   useEffect(() => {
-    let newSrc = src;
-    console.log(src);
-    if (!newSrc || typeof newSrc == "string") {
-      newSrc = baseURL + newSrc;
+    if (src) {
+      if (typeof src === "string") {
+        setSrcPic(src);
+      } else {
+        convertToBase64(src).then((value: any) => {
+          setSrcPic(value);
+        });
+      }
+    } else {
+      setSrcPic(errImg);
     }
-    /*
-      Delete the below if statement
-    */
-    if (src && src.slice(0, 5) == "data:") {
-      newSrc = src;
-    }
-
-    setSrcPic(newSrc);
   }, [src]);
   return (
     <>

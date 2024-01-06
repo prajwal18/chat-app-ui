@@ -12,6 +12,7 @@ import { sendMessageSchema } from "../../../utils/yup/messageSchema";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { appendToConversation } from "../../../redux/slice/conversationSlice";
+import UploadImageComponent from "./UploadImageComponent";
 // Icons
 
 interface ISendMessage {
@@ -30,7 +31,7 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
           formik.setSubmitting(false);
           formik.setFieldValue("message", "");
           formik.setFieldTouched("message", false);
-          const message = data.message
+          const message = data.message;
           dispatch(appendToConversation(message));
         })
         .catch((_error: any) => {
@@ -66,14 +67,17 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
           },
         }}
       />
-      <Fab
-        color="primary"
-        aria-label="add"
-        disabled={formik.isSubmitting}
-        type="submit"
-      >
-        <SendIcon />
-      </Fab>
+      <UploadImageComponent />
+      <div>
+        <Fab
+          color="primary"
+          aria-label="add"
+          disabled={formik.isSubmitting}
+          type="submit"
+        >
+          <SendIcon />
+        </Fab>
+      </div>
     </Stack>
   );
 };

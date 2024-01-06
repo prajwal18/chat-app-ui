@@ -3,7 +3,6 @@ import { FC } from "react";
 import CustImage from "../../CustImage";
 
 import uploadImg from "../../../assets/image/uploadImg.png";
-import convertToBase64 from "../../../utils/convertToBase64";
 
 interface IEditProfileForm {
   formik: any;
@@ -13,8 +12,7 @@ const EditProfileForm: FC<IEditProfileForm> = ({ formik }) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target?.files?.[0]) {
-      const base64 = await convertToBase64(event.target.files[0]);
-      formik.setFieldValue("profile_picture", base64);
+      formik.setFieldValue("profile_picture", event.target.files[0]);
     }
   };
   return (
@@ -59,6 +57,9 @@ const EditProfileForm: FC<IEditProfileForm> = ({ formik }) => {
               name="profile_picture"
               type="file"
               fullWidth
+              inputProps={{
+                accept: "image/*"
+              }}
               onChange={handlePictureUpload}
               disabled={formik.isSubmitting}
             />

@@ -46,7 +46,15 @@ const EditProfileModal: FC<IEditProfileModal> = ({
     validationSchema: editUserSchema,
     enableReinitialize: true,
     onSubmit: async (values: EditUserType) => {
-      editUser(values, user.id)
+      // Converting Json to form data
+      let formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      if (values.profile_picture && typeof values.profile_picture !== "string") {
+        formData.append("profile_picture", values.profile_picture);
+      }
+      // Converting Json to form data
+      editUser(formData, user.id)
         .then((data: SessionInfoType) => {
           dispatch(setSession(data));
           formik.resetForm();

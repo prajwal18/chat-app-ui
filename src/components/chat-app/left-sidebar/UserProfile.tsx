@@ -29,7 +29,10 @@ const UserProfile = () => {
     <>
       <Stack direction="row" sx={{ gap: "20px" }} alignItems="center">
         <ProfileImgContainer
-          src="https://avatarfiles.alphacoders.com/224/224453.jpg"
+          src={
+            authUser.profile_picture ||
+            "https://avatarfiles.alphacoders.com/224/224453.jpg"
+          }
           alt="Prajwal Gautam"
           onClick={handleOpen}
         />
