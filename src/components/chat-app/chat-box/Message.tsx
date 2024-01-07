@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
+import { MessageType } from "../../../redux/slice/conversationSlice";
 
 // Delete this later
 function getLocalDateTimeString(dateString: string) {
@@ -32,12 +33,10 @@ const MetaInfo: FC<IMetaInfo> = ({ show, text, isFromMe }) => {
 };
 
 interface IMessage {
-  message: string;
+  message: MessageType;
   isFromMe: boolean;
-  sender: string;
-  createdAt: string;
 }
-const Message: FC<IMessage> = ({ message, isFromMe, sender, createdAt }) => {
+const Message: FC<IMessage> = ({ message, isFromMe }) => {
   const [showMetaInfo, setShowMetaInfo] = useState(false);
   const toggleShowMetaInfo = () => {
     setShowMetaInfo((state) => !state);
@@ -50,17 +49,17 @@ const Message: FC<IMessage> = ({ message, isFromMe, sender, createdAt }) => {
       <MetaInfo
         show={showMetaInfo}
         isFromMe={isFromMe}
-        text={getLocalDateTimeString(createdAt)}
+        text={getLocalDateTimeString(message.created_at)}
       />
       <Stack direction={"row"} justifyContent={"flex-start"}>
         <Box
           sx={{ p: "20px", borderRadius: "30px", ...messageStyle }}
           onClick={toggleShowMetaInfo}
         >
-          <Typography>{message}</Typography>
+          <Typography>{message.message}</Typography>
         </Box>
       </Stack>
-      <MetaInfo show={showMetaInfo} isFromMe={isFromMe} text={sender} />
+      <MetaInfo show={showMetaInfo} isFromMe={isFromMe} text={message.sender.name} />
     </Stack>
   );
 };

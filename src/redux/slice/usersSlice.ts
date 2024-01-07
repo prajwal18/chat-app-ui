@@ -6,6 +6,7 @@ export type InterlocutorType = {
   id: number;
   email: string;
   name: string;
+  profile_picture: string;
 };
 
 type initialStateType = {
@@ -100,6 +101,10 @@ const usersSlice = createSlice({
       state.activeUsers = action.payload;
       return state;
     },
+    resetUsersState: (state: any) => {
+      state = initialState;
+      return state;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -153,6 +158,11 @@ export const selectIsLoadingActiveUsers = (state: any) => {
   return state.users.isLoadingActiveUsers;
 };
 
-export const { setSearchTerm, setUsers, setActiveUsers, setInterlocutor } =
-  usersSlice.actions;
+export const {
+  setSearchTerm,
+  setUsers,
+  setActiveUsers,
+  setInterlocutor,
+  resetUsersState,
+} = usersSlice.actions;
 export default usersSlice.reducer;

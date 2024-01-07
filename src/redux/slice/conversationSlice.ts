@@ -12,7 +12,7 @@ export type MessageType = {
   message: string;
   sender: SenderReciverType;
   receiver: SenderReciverType;
-  created_at: string
+  created_at: string;
 };
 
 type initialStateType = {
@@ -82,6 +82,10 @@ const conversationSlice = createSlice({
       state.conversation = action.payload;
       return state;
     },
+    resetConversationState: (state: any) => {
+      state = initialState;
+      return state;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -116,5 +120,6 @@ export const {
   setIsLoadingConversation,
   setConversation,
   appendToConversation,
+  resetConversationState
 } = conversationSlice.actions;
 export default conversationSlice.reducer;

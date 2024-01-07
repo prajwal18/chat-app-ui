@@ -62,9 +62,7 @@ const ConversationRecord: FC<IConversationRecord> = ({
               <React.Fragment key={message.id}>
                 <Message
                   isFromMe={isFromMe}
-                  message={message.message}
-                  sender={message.sender.name}
-                  createdAt={message.created_at}
+                  message={message}
                 />
               </React.Fragment>
             );

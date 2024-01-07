@@ -40,7 +40,7 @@ const UsersList = () => {
           <ListItemAvatar>
             <Avatar
               alt="Remy Sharp"
-              src="https://avatarfiles.alphacoders.com/224/224453.jpg"
+              src={user.profile_picture || "https://avatarfiles.alphacoders.com/224/224453.jpg"}
               sx={{
                 border: index % 2 ? "3px solid #89f573" : "none",
               }}

@@ -13,10 +13,10 @@ const InterlocutorPic = styled("img")`
 // Styled Componenet
 
 interface IInterlocutorProfile {
-  interlocutor: InterlocutorType
+  interlocutor: InterlocutorType;
 }
 
-const InterlocutorProfile: FC<IInterlocutorProfile> = ({interlocutor}) => {
+const InterlocutorProfile: FC<IInterlocutorProfile> = ({ interlocutor }) => {
   return (
     <Stack
       sx={{ p: "30px 30px 20px 30px", borderBottom: "1px solid #bbbdbb" }}
@@ -25,7 +25,10 @@ const InterlocutorProfile: FC<IInterlocutorProfile> = ({interlocutor}) => {
       alignItems="center"
     >
       <InterlocutorPic
-        src="https://avatarfiles.alphacoders.com/224/224453.jpg"
+        src={
+          interlocutor.profile_picture ||
+          "https://avatarfiles.alphacoders.com/224/224453.jpg"
+        }
         alt="Maximus Iridimus Decimus"
       />
       <BlueText variant="h5">{interlocutor.name}</BlueText>

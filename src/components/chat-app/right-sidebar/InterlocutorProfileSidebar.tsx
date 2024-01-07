@@ -26,10 +26,13 @@ const InterlocutorProfileSidebar = () => {
       spacing={4}
     >
       <ProfileImg
-        src="https://avatarfiles.alphacoders.com/224/224453.jpg"
+        src={
+          interlocutor && interlocutor.profile_picture ||
+          "https://avatarfiles.alphacoders.com/224/224453.jpg"
+        }
         alt="Maximus Iridimus Decimus"
       />
-      <Stack spacing={1} sx={{textAlign:"center"}}>
+      <Stack spacing={1} sx={{ textAlign: "center" }}>
         {interlocutor ? (
           <>
             <BlueText variant="h5">{interlocutor.name}</BlueText>
