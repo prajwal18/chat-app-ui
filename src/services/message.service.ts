@@ -6,10 +6,15 @@ export type CreateMessageType = {
   receiver_id: number;
   message: string;
 };
-export const sendMessage = async (message: CreateMessageType) => { 
+export const sendMessage = async (message: FormData) => {
   const { data, status } = await jwtAxios().post(
     endpoints.message.create,
-    message
+    message,
+    {
+      headers: {
+        accepts: "application/json",
+      },
+    }
   );
   if (status == HttpStatusCode.Created) {
     return data;

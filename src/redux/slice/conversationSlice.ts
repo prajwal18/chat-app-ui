@@ -13,6 +13,7 @@ export type MessageType = {
   sender: SenderReciverType;
   receiver: SenderReciverType;
   created_at: string;
+  is_picture: boolean;
 };
 
 type initialStateType = {
@@ -120,6 +121,6 @@ export const {
   setIsLoadingConversation,
   setConversation,
   appendToConversation,
-  resetConversationState
+  resetConversationState,
 } = conversationSlice.actions;
 export default conversationSlice.reducer;

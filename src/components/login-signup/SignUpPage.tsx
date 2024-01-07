@@ -16,8 +16,17 @@ import { useDispatch } from "react-redux";
 import { setSession } from "../../redux/slice/sessionSlice";
 import { Link, useNavigate } from "react-router-dom";
 import CustomPasswordField from "../form/CustomPasswordField";
+import UploadImgComponent from "./UploadImgComponent";
 
 // TODO remove, this demo shouldn't need to reset the theme.
+
+const getFormDataFromObject = (data: SignupDataType) => {
+  let formData = new FormData();
+  Object.entries(data).map(([key, value]: any) => {
+    formData.append(key, value);
+  });
+  return formData;
+};
 
 const SignUpPage = () => {
   return (
@@ -59,7 +68,8 @@ const SignupForm = () => {
     validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: async (values: SignupDataType) => {
-      signup(values)
+      const formData = getFormDataFromObject(values);
+      signup(formData)
         .then((data) => {
           toast.success("You have signed up successfully.");
           dispatch(setSession(data));
@@ -68,7 +78,7 @@ const SignupForm = () => {
         })
         .catch((error: any) => {
           formik.setSubmitting(false);
-          toast.error(error.message)
+          toast.error(error.message);
         });
     },
   });
@@ -129,10 +139,20 @@ const SignupForm = () => {
             value={formik.values.password_confirmation}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            helperText={formik.touched.password_confirmation ? formik.errors.password_confirmation : ""}
-            error={formik.touched.password_confirmation && Boolean(formik.errors.password_confirmation)}
+            helperText={
+              formik.touched.password_confirmation
+                ? formik.errors.password_confirmation
+                : ""
+            }
+            error={
+              formik.touched.password_confirmation &&
+              Boolean(formik.errors.password_confirmation)
+            }
             disabled={formik.isSubmitting}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <UploadImgComponent formik={formik} />
         </Grid>
       </Grid>
       <Button
@@ -155,9 +175,7 @@ const FormFooter = () => {
   return (
     <Grid container justifyContent="flex-end">
       <Grid item>
-        <Link to="/login">
-          Already have an account? Log In
-        </Link>
+        <Link to="/login">Already have an account? Log In</Link>
       </Grid>
     </Grid>
   );

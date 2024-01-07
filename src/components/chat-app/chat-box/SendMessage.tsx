@@ -2,16 +2,15 @@ import { Fab, Stack, TextField } from "@mui/material";
 
 // Icons
 import SendIcon from "@mui/icons-material/Send";
-import { FC } from "react";
 import { useFormik } from "formik";
+import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { appendToConversation } from "../../../redux/slice/conversationSlice";
 import {
-  CreateMessageType,
-  sendMessage,
+  sendMessage
 } from "../../../services/message.service";
 import { sendMessageSchema } from "../../../utils/yup/messageSchema";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { appendToConversation } from "../../../redux/slice/conversationSlice";
 import UploadImageComponent from "./UploadImageComponent";
 // Icons
 
@@ -24,9 +23,14 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
     initialValues: { receiver_id: receiverId, message: "" },
     enableReinitialize: true,
     validationSchema: sendMessageSchema,
-    onSubmit: (values: CreateMessageType) => {
-      console.log(values);
-      sendMessage(values)
+    onSubmit: (values: any) => {
+      let formData = new FormData();
+      formData.append("message", values.message);
+      formData.append("receiver_id", values.receiver_id);
+      if (values?.picture) {
+        formData.append("picture", values.picture);
+      }
+      sendMessage(formData)
         .then((data) => {
           formik.setSubmitting(false);
           formik.setFieldValue("message", "");
@@ -58,7 +62,6 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
         value={formik.values.message}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        helperText={formik.touched.message ? formik.errors.message : ""}
         error={formik.touched.message && Boolean(formik.errors.message)}
         disabled={formik.isSubmitting}
         InputProps={{
@@ -67,7 +70,7 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
           },
         }}
       />
-      <UploadImageComponent />
+      <UploadImageComponent formik={formik} />
       <div>
         <Fab
           color="primary"

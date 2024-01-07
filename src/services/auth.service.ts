@@ -22,8 +22,12 @@ export type SignupDataType = {
   password: string;
   password_confirmation: string;
 };
-export const signup = async (userInfo: SignupDataType) => {
-  const { data, status } = await axios.post(endpoints.user.users, userInfo);
+export const signup = async (userInfo: FormData) => {
+  const { data, status } = await axios.post(endpoints.user.users, userInfo, {
+    headers: {
+      accepts: "application/json",
+    },
+  });
   if (status === HttpStatusCode.Created) {
     return data;
   } else {
