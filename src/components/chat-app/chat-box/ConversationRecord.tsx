@@ -6,10 +6,9 @@ import {
   appendToConversation,
   selectConversation,
   selectIsLoadingConversation,
+  updateMessage,
 } from "../../../redux/slice/conversationSlice";
 import Message from "./Message";
-
-
 
 interface IConversationRecord {
   interlocutorId: number;
@@ -40,8 +39,11 @@ const ConversationRecord: FC<IConversationRecord> = ({
     },
     {
       received: (data: any) => {
-        console.log(data);
-        dispatch(appendToConversation(data.message));
+        if (data.update) {
+          dispatch(updateMessage(data.message));
+        } else {
+          dispatch(appendToConversation(data.message));
+        }
       },
     }
   );
@@ -60,10 +62,7 @@ const ConversationRecord: FC<IConversationRecord> = ({
             const isFromMe = message.sender.id !== interlocutorId;
             return (
               <React.Fragment key={message.id}>
-                <Message
-                  isFromMe={isFromMe}
-                  message={message}
-                />
+                <Message isFromMe={isFromMe} message={message} />
               </React.Fragment>
             );
           })}

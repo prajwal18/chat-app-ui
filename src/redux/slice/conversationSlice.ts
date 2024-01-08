@@ -79,6 +79,14 @@ const conversationSlice = createSlice({
       }
       return state;
     },
+    updateMessage: (state: any, action: AppendToConversationAT) => {
+      const message = action.payload;
+      const conversation = state.conversation.map((msg: MessageType) => {
+        return msg.id === message.id ? message : msg;
+      });
+      state.conversation = conversation;
+      return state;
+    },
     setConversation: (state: any, action: SetConversationAT) => {
       state.conversation = action.payload;
       return state;
@@ -122,5 +130,6 @@ export const {
   setConversation,
   appendToConversation,
   resetConversationState,
+  updateMessage
 } = conversationSlice.actions;
 export default conversationSlice.reducer;
