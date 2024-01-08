@@ -13,6 +13,7 @@ export const sendMessage = async (message: FormData) => {
     {
       headers: {
         accepts: "application/json",
+        "Content-Type": "multipart/form-data",
       },
     }
   );

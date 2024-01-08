@@ -13,8 +13,9 @@ interface IUploadImageComponent {
 
 const UploadImageComponent: FC<IUploadImageComponent> = ({ formik }) => {
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Hello");
     if (event.target?.files?.[0]) {
-      formik.setFieldValue("picture", event.target.files[0]);
+      formik.setFieldValue("pictures", Array.from(event.target.files));
       formik.setFieldValue("message", "picture");
     }
   };
@@ -27,9 +28,9 @@ const UploadImageComponent: FC<IUploadImageComponent> = ({ formik }) => {
         type="file"
         id="uploadFile"
         accept="image/*"
-
         style={{ display: "none" }}
         onChange={handleOnChange}
+        multiple
       />
     </div>
   );

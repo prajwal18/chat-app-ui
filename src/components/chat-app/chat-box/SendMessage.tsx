@@ -6,10 +6,11 @@ import { useFormik } from "formik";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { appendToConversation } from "../../../redux/slice/conversationSlice";
 import {
-  sendMessage
-} from "../../../services/message.service";
+  appendAllToConversation,
+  appendToConversation,
+} from "../../../redux/slice/conversationSlice";
+import { sendMessage } from "../../../services/message.service";
 import { sendMessageSchema } from "../../../utils/yup/messageSchema";
 import UploadImageComponent from "./UploadImageComponent";
 // Icons
@@ -27,16 +28,22 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
       let formData = new FormData();
       formData.append("message", values.message);
       formData.append("receiver_id", values.receiver_id);
-      if (values?.picture) {
-        formData.append("picture", values.picture);
+      if (values.pictures && values.pictures.length) {
+        values.pictures.map((pic: any) => {
+          formData.append("pictures[]", pic);
+        });
       }
       sendMessage(formData)
         .then((data) => {
           formik.setSubmitting(false);
           formik.setFieldValue("message", "");
           formik.setFieldTouched("message", false);
-          const message = data.message;
-          dispatch(appendToConversation(message));
+          if (data.bulk) {
+            dispatch(appendAllToConversation(data.messages));
+          } else {
+            const message = data.message;
+            dispatch(appendToConversation(message));
+          }
         })
         .catch((_error: any) => {
           formik.setSubmitting(false);

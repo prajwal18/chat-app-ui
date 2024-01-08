@@ -59,6 +59,7 @@ const RenderMessage: FC<IRenderMessage> = ({
             borderRadius: "10px",
             objectFit: "cover",
           }}
+          onClick={toggleShowMetaInfo}
         />
       ) : (
         <Box

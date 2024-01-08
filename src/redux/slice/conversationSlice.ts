@@ -43,6 +43,10 @@ type AppendToConversationAT = {
   type: string;
   payload: MessageType;
 };
+type AppendAllToConversationAT = {
+  type: string;
+  payload: Array<MessageType>;
+};
 
 // Action Type
 
@@ -77,6 +81,20 @@ const conversationSlice = createSlice({
         state.conversation.push(action.payload);
         state.conversation = JSON.parse(JSON.stringify(state.conversation));
       }
+      return state;
+    },
+    appendAllToConversation: (
+      state: any,
+      action: AppendAllToConversationAT
+    ) => {
+      action.payload.map((message: MessageType) => {
+        let isNew = state.conversation.some(
+          (msg: MessageType) => msg.id === message.id
+        );
+        !isNew && state.conversation.push(message);
+      });
+
+      state.conversation = JSON.parse(JSON.stringify(state.conversation));
       return state;
     },
     updateMessage: (state: any, action: AppendToConversationAT) => {
@@ -130,6 +148,7 @@ export const {
   setConversation,
   appendToConversation,
   resetConversationState,
-  updateMessage
+  updateMessage,
+  appendAllToConversation,
 } = conversationSlice.actions;
 export default conversationSlice.reducer;
