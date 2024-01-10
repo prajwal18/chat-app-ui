@@ -35,9 +35,7 @@ const SendMessage: FC<ISendMessage> = ({ receiverId }) => {
       }
       sendMessage(formData)
         .then((data) => {
-          formik.setSubmitting(false);
-          formik.setFieldValue("message", "");
-          formik.setFieldTouched("message", false);
+          formik.resetForm()
           if (data.bulk) {
             dispatch(appendAllToConversation(data.messages));
           } else {

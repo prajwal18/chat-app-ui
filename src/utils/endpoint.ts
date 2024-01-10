@@ -1,5 +1,5 @@
-export const baseURL = "http://localhost:3000";
-export const wsURL = "ws://localhost:3000/cable";
+export const baseURL = import.meta.env.VITE_API_BASE_URL;
+export const wsURL = import.meta.env.VITE_WS_URL;
 
 type IdType = number | string;
 
